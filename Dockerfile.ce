@@ -22,7 +22,7 @@ WORKDIR /app
 RUN apk update && apk add --no-cache ca-certificates
 
 # Copy the built binary from Stage 1
-COPY --from=build /app/zep /app/zep
+COPY --from=build /app/zep_app /app/zep_app
 
 # Copy config.yaml into the image
 COPY config.yaml /app/config.yaml
