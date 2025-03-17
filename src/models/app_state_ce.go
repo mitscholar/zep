@@ -2,5 +2,9 @@
 package models
 
 type AppState struct {
-	AppStateCommon
+    AppStateCommon
+}
+
+func NewAppState() *AppState {
+    return &AppState{}
 }
