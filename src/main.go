@@ -58,19 +58,19 @@ func setupSignalHandler(as *models.AppState, srv *http.Server) chan struct{} {
 		// the error here is irrelevant as it is not actionable and very unlikely to
 		// happen.
 		srv.Shutdown(context.Background())
-
-		if err := as.TaskRouter.Close(); err != nil {
+		if as.TaskRouter != nil {
+		   if err := as.TaskRouter.Close(); err != nil {
 			logger.Error("Error closing task router", "error", err)
+		   }
 		}
-
 		telemetry.Shutdown()
 
 		gracefulShutdown()
-
-		if err := as.DB.Close(); err != nil {
+                if as.DB != nil {
+		   if err := as.DB.Close(); err != nil {
 			logger.Error("Error closing database connection", "error", err)
+		   }
 		}
-
 		observability.Shutdown()
 
 		done <- struct{}{}
