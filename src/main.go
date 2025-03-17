@@ -21,7 +21,7 @@ func main() {
 
 	logger.InitDefaultLogger()
 
-	as := newAppState()
+	as := models.NewAppState()
 
 	srv, err := api.Create(as)
 	if err != nil {
@@ -77,4 +77,8 @@ func setupSignalHandler(as *models.AppState, srv *http.Server) chan struct{} {
 	}()
 
 	return done
+}
+// Define a gracefulShutdown function (if not provided by any package)
+func gracefulShutdown() {
+    // No shutdown logic provided; you can add cleanup code if needed.
 }
