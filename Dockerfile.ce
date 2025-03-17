@@ -12,10 +12,11 @@ COPY . .
 RUN go mod download
 
 # Build the binary (adjust paths if needed)
-RUN go build -o /app/zep /app/main.go
+RUN go build -o /app/zep /app/src/main.go
 
 # Stage 2: Create a minimal runtime image
-FROM debian:bookworm-slim AS runtime
+FROM alpine:3.17
+WORKDIR /app
 
 # Install necessary packages (like CA certificates)
 RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
