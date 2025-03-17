@@ -19,7 +19,7 @@ FROM alpine:3.17
 WORKDIR /app
 
 # Install necessary packages (like CA certificates)
-RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apk update && apk add --no-cache ca-certificates
 
 # Copy the built binary from stage 1
 COPY --from=build /app/zep /app/zep
