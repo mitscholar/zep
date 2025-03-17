@@ -34,5 +34,6 @@ ENV ZEP_CONFIG_FILE=/app/config.yaml
 EXPOSE 8000
 
 # Entry point
-ENTRYPOINT ["/app/zep"]
+ENTRYPOINT ["/app/zep_app"]
+
 
