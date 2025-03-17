@@ -19,7 +19,7 @@ FROM debian:bookworm-slim
 WORKDIR /app
 
 # Install necessary packages (like CA certificates)
-RUN apk update && apk add --no-cache ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates && apt-get clean
 
 # Copy the built binary from Stage 1
 COPY --from=build /app/zep_app /app/zep_app
