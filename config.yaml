@@ -1,0 +1,5 @@
+api_secret: 8c943f0a-d6e5-4c19-9182-ae5d97f34a3d
+postgres_dsn: "postgresql://zep_db_user:Z82rp2R9on4thMNegcxOcxRpfAoehR1b@dpg-cvbmq1rtq21c73e177b0-a/zep_db"
+redis_url: "redis://default:ZRTw1hnpa2erBmoUd1WnJL6X0ijgB6At@redis-12185.c99.us-east-1-4.ec2.redns.redis-cloud.com:12185"
+log_level: info
+enable_prometheus_metrics: true
