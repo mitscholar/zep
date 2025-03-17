@@ -1,19 +1,37 @@
-FROM golang:1.22.5-bookworm AS BUILD
+# Stage 1: Build the Zep binary
+FROM golang:1.22.5-bookworm AS build
 
+# Create /app directory
 RUN mkdir /app
 WORKDIR /app
+
+# Copy everything (including go.mod, go.sum, and your source code)
 COPY . .
-WORKDIR /app/src
+
+# Download dependencies
 RUN go mod download
-WORKDIR /app
-RUN make -f Makefile.ce build
 
-FROM debian:bookworm-slim AS RUNTIME
+# Build the binary (adjust paths if needed)
+RUN go build -o /app/zep /app/main.go
+
+# Stage 2: Create a minimal runtime image
+FROM debian:bookworm-slim AS runtime
+
+# Install necessary packages (like CA certificates)
 RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
-WORKDIR /app
-COPY --from=BUILD /app/out/bin/zep /app/
-# Ship with default config that can be overridden by ENV vars
-COPY zep.yaml /app/
 
+# Copy the built binary from stage 1
+COPY --from=build /app/zep /app/zep
+
+# IMPORTANT: Copy the config file into the final image
+COPY config.yaml /app/config.yaml
+
+# Let Zep know where the config file is
+ENV ZEP_CONFIG_FILE=/app/config.yaml
+
+# Expose port 8000 (if that's what Zep uses)
 EXPOSE 8000
+
+# Entry point
 ENTRYPOINT ["/app/zep"]
+
