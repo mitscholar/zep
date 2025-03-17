@@ -66,10 +66,12 @@ func setupSignalHandler(as *models.AppState, srv *http.Server) chan struct{} {
 		telemetry.Shutdown()
 
 		gracefulShutdown()
-                if as.DB != nil {
-		   if err := as.DB.Close(); err != nil {
-			logger.Error("Error closing database connection", "error", err)
-		   }
+                if reflect.ValueOf(as.DB).IsValid() {
+                    if closer, ok := any(as.DB).(interface{ Close() error }); ok {
+                        if err := closer.Close(); err != nil {
+                            logger.Error("Error closing database connection", "error", err)
+                        }
+                     }
 		}
 		observability.Shutdown()
 
