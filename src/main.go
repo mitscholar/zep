@@ -14,6 +14,7 @@ import (
 	"github.com/getzep/zep/lib/observability"
 	"github.com/getzep/zep/lib/telemetry"
 	"github.com/getzep/zep/models"
+	 "reflect"
 )
 
 func main() {
